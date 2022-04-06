@@ -18,7 +18,7 @@
 
 ## dependencies
 
-- boost (only the `boost::filesystem::operations`)
+- boost (only the `boost::filesystem::operations` header)
 
 ## build instructions
 
