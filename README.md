@@ -18,7 +18,7 @@
 
 ## dependencies
 
-- boost (only the `boost::filesystem::operations` header but you can download everything)
+- boost (only the `boost::filesystem::operations`)
 
 ## build instructions
 
@@ -27,4 +27,4 @@
 - Build.
 
 ## license
-(c) 2022 Julien Matthey - Released under the MIT license.
+(c) 2022 Julien Matthey - Released under the MIT license. Some code is copy-pasted from stackoverflow.com - please see header files.

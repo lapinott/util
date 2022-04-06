@@ -2,9 +2,9 @@
 /*
 	filesystem path helper class.
 	use case: feed utf8 paths and convert internally to utf16 on Windows,
-	no conversion needed on *nix
+	no conversion needed on *nix / macos
 	platform_path() returns a path suited to the host platform filesystem in the
-	correct encoding (utf16 on Windows, utf8 on *nix).
+	correct encoding (utf16 on Windows, utf8 on *nix / macos).
 	u8path() returns an utf8 encoded path for all other purposes.
 
 	This implementation assumes that native filesystem names are:
@@ -83,7 +83,7 @@ namespace util {
 
 		size_t file_size() const;
 
-		std::vector<char> cat() const;
+		std::vector<char> cat(std::ios::openmode open_mode = std::ios::binary) const;
 
 		bool cat(const std::vector<char>& buf, std::ios::openmode open_mode = std::ios::binary) const;
 	};

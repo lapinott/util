@@ -40,6 +40,7 @@ namespace util {
 #ifdef __APPLE__
 		return m_u8path;
 #endif
+		throw std::exception{ "filesystem_path_t: unknown platform." };
 	}
 
 	filesystem_path_t filesystem_path_t::parent_path() const {
@@ -58,14 +59,14 @@ namespace util {
 		return std::filesystem::is_regular_file(platform_path());
 	}
 
-	time_t filesystem_path_t::last_write_time() const {
+	time_t filesystem_path_t::last_write_time() const {//boost dependency here
 		return boost::filesystem::last_write_time(platform_path());
 		//return std::filesystem::last_write_time(platform_path()).time_since_epoch().count();
 	}
 
-	bool filesystem_path_t::last_write_time(time_t last_write_time) const {
+	bool filesystem_path_t::last_write_time(time_t last_write_time) const {//boost dependency here
 		boost::system::error_code ec;
-		boost::filesystem::last_write_time(platform_path(), last_write_time, ec);//boost dependency here
+		boost::filesystem::last_write_time(platform_path(), last_write_time, ec);
 		return !ec.failed();
 	}
 
@@ -73,16 +74,13 @@ namespace util {
 		return std::filesystem::file_size(platform_path());
 	}
 
-	std::vector<char> filesystem_path_t::cat() const {
+	std::vector<char> filesystem_path_t::cat(std::ios::openmode open_mode) const {
 		size_t sz = file_size();
 		std::vector<char> buf(sz);
-		std::ifstream ifs{ platform_path(), std::ios::binary };
+		std::ifstream ifs{ platform_path(), open_mode };
 		ifs.read(buf.data(), sz);
 		ifs.close();
-		if (!ifs.bad())
-			return buf;
-		else
-			return {};
+		return buf;
 	}
 
 	bool filesystem_path_t::cat(const std::vector<char>& buf, std::ios::openmode open_mode) const {
