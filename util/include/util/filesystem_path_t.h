@@ -45,13 +45,13 @@ namespace util {
 
 		filesystem_path_t() {}
 
-#ifdef _MSC_VER
+#if defined(_MSC_VER)
 		using std_filesystem_path_string_type = std::wstring;//static_assert in impl. file & avoiding #include <filesystem>
-#endif
-#ifdef __linux__
+#elif defined(__linux__)
 		using std_filesystem_path_string_type = std::string;//static_assert in impl. file & avoiding #include <filesystem>
-#endif
-#ifdef __APPLE__
+#elif defined(__APPLE__)
+		using std_filesystem_path_string_type = std::string;//static_assert in impl. file & avoiding #include <filesystem>
+#else //NetBSD?
 		using std_filesystem_path_string_type = std::string;//static_assert in impl. file & avoiding #include <filesystem>
 #endif
 
