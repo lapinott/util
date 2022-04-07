@@ -31,16 +31,15 @@ namespace util {
 	}
 
 	std::filesystem::path::string_type filesystem_path_t::platform_path() const {
-#ifdef _MSC_VER
+#if defined(_MSC_VER)
 		return m_u16path;
-#endif
-#ifdef __linux__
+#elif defined (__linux__)
+		return m_u8path;
+#elif defined(__APPLE__)
+		return m_u8path;
+#else
 		return m_u8path;
 #endif
-#ifdef __APPLE__
-		return m_u8path;
-#endif
-		throw std::exception{ "filesystem_path_t: unknown platform." };
 	}
 
 	filesystem_path_t filesystem_path_t::parent_path() const {
