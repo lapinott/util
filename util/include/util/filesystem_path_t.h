@@ -1,28 +1,21 @@
 ﻿#pragma once
 /*
 	filesystem path helper class.
-	use case: feed utf8 paths and convert internally to utf16 on Windows,
-	no conversion needed on *nix / macos
+	use case: feed utf8 paths and convert internally to utf16 on Windows.
+	filesystem paths on other platforms are 'assumed' to be utf8 encoded (linux / macos / NetBSD / ...)
 	platform_path() returns a path suited to the host platform filesystem in the
-	correct encoding (utf16 on Windows, utf8 on *nix / macos).
+	correct encoding (utf16 on Windows, utf8 otherwise).
 	u8path() returns an utf8 encoded path for all other purposes.
 
 	This implementation assumes that native filesystem names are:
 		- wchar_t strings on Windows (->utf16 encoded)
-		- char strings on Linux (->utf8 encoded)
-		- char string on macOS (->utf8 encoded)
+		- char strings otherwise (linux / macos / NetBSD / ... ->utf8 encoded)
 
 	DOC
 		https://en.cppreference.com/w/cpp/language/string_literal
 */
 
 #if 0
-#define __linux__
-#undef _MSC_VER
-#endif
-
-#if 0
-#define __APPLE__
 #undef _MSC_VER
 #endif
 
@@ -45,14 +38,10 @@ namespace util {
 
 		filesystem_path_t() {}
 
-#if defined(_MSC_VER)
-		using std_filesystem_path_string_type = std::wstring;//static_assert in impl. file & avoiding #include <filesystem>
-#elif defined(__linux__)
-		using std_filesystem_path_string_type = std::string;//static_assert in impl. file & avoiding #include <filesystem>
-#elif defined(__APPLE__)
-		using std_filesystem_path_string_type = std::string;//static_assert in impl. file & avoiding #include <filesystem>
-#else //NetBSD?
-		using std_filesystem_path_string_type = std::string;//static_assert in impl. file & avoiding #include <filesystem>
+#ifdef _MSC_VER
+		using std_filesystem_path_string_type = std::wstring;//static_assert in impl. file (->do not #include <filesystem> here. why? becos)
+#else
+		using std_filesystem_path_string_type = std::string;//static_assert in impl. file (->do not #include <filesystem> here. why? becos)
 #endif
 
 		//assumes an ascii or utf8-encoded path; string litterals must be prefixed with u8"..." if they contain non-ascii characters

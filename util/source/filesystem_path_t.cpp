@@ -31,12 +31,8 @@ namespace util {
 	}
 
 	std::filesystem::path::string_type filesystem_path_t::platform_path() const {
-#if defined(_MSC_VER)
+#ifdef _MSC_VER
 		return m_u16path;
-#elif defined (__linux__)
-		return m_u8path;
-#elif defined(__APPLE__)
-		return m_u8path;
 #else
 		return m_u8path;
 #endif
