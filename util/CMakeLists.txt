@@ -14,4 +14,4 @@ target_include_directories(util PUBLIC "include")
 target_include_directories(util PUBLIC "${BOOST_DIR}")
 
 install(TARGETS util LIBRARY DESTINATION lib)
-install(FILES ${UTIL_PUBLIC_HEADERS} DESTINATION include)
+install(FILES ${UTIL_PUBLIC_HEADERS} DESTINATION "include/util")
