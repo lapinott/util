@@ -75,5 +75,9 @@ namespace util {
 		std::vector<char> cat(std::ios::openmode open_mode = std::ios::binary) const;
 
 		bool cat(const std::vector<char>& buf, std::ios::openmode open_mode = std::ios::binary) const;
+
+		std::string extension() const;
+
+		bool empty() const;
 	};
 }

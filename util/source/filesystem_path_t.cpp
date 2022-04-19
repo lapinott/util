@@ -66,7 +66,7 @@ namespace util {
 	}
 
 	size_t filesystem_path_t::file_size() const {
-		return std::filesystem::file_size(platform_path());
+		return std::filesystem::file_size(platform_path());//except. if not a file
 	}
 
 	std::vector<char> filesystem_path_t::cat(std::ios::openmode open_mode) const {
@@ -83,5 +83,13 @@ namespace util {
 		ofs.write(buf.data(), buf.size());
 		ofs.close();
 		return !ofs.bad();
+	}
+
+	std::string filesystem_path_t::extension() const {
+		return filesystem_path_t{ std::filesystem::path(u8path()).extension() }.u8path();
+	}
+
+	bool filesystem_path_t::empty() const {
+		return platform_path().empty();
 	}
 }
